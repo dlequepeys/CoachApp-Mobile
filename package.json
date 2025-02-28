@@ -1,0 +1,26 @@
+{
+  "name": "coachapp-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@mdi/js": "^7.4.47",
+    "@nuxtjs/tailwindcss": "^6.11.4",
+    "openai": "^4.28.0",
+    "mammoth": "^1.7.0",
+    "nuxt": "^3.10.1",
+    "pdfjs-dist": "^4.0.269",
+    "turndown": "^7.1.2",
+    "vue": "^3.4.15"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  }
+}
