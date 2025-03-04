@@ -1,407 +1,54 @@
 <template>
   <div class="app-container">
     <div class="app-wrapper">
-      <!-- Header Section -->
-      <header class="app-header">
-        <h1 class="app-title">{{ currentView === 'diag' ? 'Diagnostic' : 'CoachApp' }}</h1>
-        <p class="app-subtitle" v-if="currentView !== 'diag'">
-          Ton assistant IA de création d'entreprise
-        </p>
-      </header>
-
-      <!-- Secondary Navigation for Diagnostic -->
-      <nav v-if="currentView === 'diag'" class="secondary-nav">
-        <button 
-          v-for="tab in diagTabs" 
-          :key="tab.id"
-          :class="['secondary-nav-item', { active: currentDiagTab === tab.id }]"
-          @click="currentDiagTab = tab.id"
-        >
-          {{ tab.name }}
-        </button>
-      </nav>
-
-      <!-- Main Content Area -->
+      <Header :currentView="currentView" />urrentView" />
+      <SecondaryNav :currentView="currentView" :currentDiagTab="currentDiagTab" />"currentView" :currentDiagTab="currentDiagTab" />
       <main class="app-main">
-        <!-- Chat View -->
-        <div v-if="currentView === 'chat'" class="chat-view">
-          <p class="help-text">
-            En quoi puis-je t'aider ?
-          </p>
-
-          <!-- Chat Messages -->
-          <div ref="chatContainer" class="chat-messages">
-            <div v-for="(message, index) in messages" :key="index" :class="message.type === 'user' ? 'user-message' : 'bot-message'">
-              <template v-if="message.type === 'bot' && message.loading">
-                <div class="loading-dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </template>
-              <template v-else>
-                {{ message.text }}
-              </template>
-            </div>
-          </div>
-        </div>
-
-        <!-- Diagnostic View -->
-        <div v-else-if="currentView === 'diag'" class="diag-view">
-
-          <!-- Progress Info -->
-          <div v-if="currentDiagTab === 'progress'" class="subtab-container">
-              <section class="sub-tab">
-              <h2 class="section-title">📈 Avancement</h2>
-                
-          <div v-if="currentDiagTab === 'progress'" class="project-phases">
-            <div v-for="(phase, index) in projectPhases" :key="phase.name" class="phase-item">
-              <span class="phase-name" :class="{ active: index === 1 }">{{ phase.name }}</span>
-            </div>
-          </div>
-
-                <p class="progress-percentage">{{ progressPercentage }}%</p>
-            <p>
-              Tu es à {{ progressPercentage }}% de la phase {{ currentPhase }}.
-            </p>
-            <p >
-              L'objectif de cette phase est de comprendre suffisamment le marché et les clients pour commencer la phase suivante de conception
-            </p>
-
-                <h3 class="section-title mt-8">🎯 Par domaine</h3>
-                <div class="domains-grid">
-                  <div class="domain-item">
-                    <div class="domain-header">
-                      <h4>Segmentation client</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 60%"></div>
-                        </div>
-                        <span class="progress-text">60%</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="domain-item">
-                    <div class="domain-header">
-                      <h4>Compréhension besoin</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 30%"></div>
-                        </div>
-                        <span class="progress-text">30%</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="domain-item">
-                    <div class="domain-header">
-                      <h4>Etude concurrence</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 30%"></div>
-                        </div>
-                        <span class="progress-text">20%</span>
-                      </div>
-                    </div>
-                     <div class="domain-header">
-                      <h4>Faisabilité économique</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 30%"></div>
-                        </div>
-                        <span class="progress-text">10%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </section>
-          </div>
-
-          <!-- Sections -->
-          <div v-if="currentDiagTab === 'synthesis'" class="subtab-container">
-            <!-- Pitch Section -->
-            <section class="sub-tab">
-              <h2 class="section-title">🎤 Pitch</h2>
-              <p class="pitch-text">
-                Recupack est une plateforme permettant aux restaurants traiteurs et aux clients livrés de faciliter la récupération des emballages consignés grâce à la mutualisation entre restaurants et livreurs par QRcode
-              </p>
-              <button class="action-button">
-                Voir la synthèse
-              </button>
-            </section>
-            <section class="sub-tab">
-              <h2 class="section-title">📝 Synthèse</h2>
-              <div v-if="!synthesis" class="pitch-text">
-                Aucun document analysé pour le moment.
-              </div>
-              <div v-else class="synthesis-content">
-                <template v-if="parsedSynthesis">
-                  <!-- Business Model Section -->
-                  <div class="synthesis-section">
-                    <h3 class="synthesis-subtitle">🎯 {{ parsedSynthesis.business_model.name }}</h3>
-                    <p class="synthesis-description">{{ parsedSynthesis.business_model.description }}</p>
-                    
-                    <!-- Actors -->
-                    <div class="mt-4">
-                      <h4 class="synthesis-label">👥 Acteurs clés</h4>
-                      <ul class="synthesis-list">
-                        <li v-for="actor in parsedSynthesis.business_model.actors" :key="actor.role">
-                          <strong>{{ actor.role }}:</strong> {{ actor.contribution }}
-                        </li>
-                      </ul>
-                    </div>
-
-                    <!-- Value Flows -->
-                    <div class="mt-4">
-                      <h4 class="synthesis-label">💫 Flux de valeur</h4>
-                      <div v-for="(flow, actor) in parsedSynthesis.business_model.value_flows" :key="actor" class="value-flow">
-                        <h5 class="actor-name">{{ actor }}</h5>
-                        <div class="flow-details">
-                          <div v-for="item in flow.items" :key="item.value" class="flow-item">
-                            {{ item.value }}
-                          </div>
-                          <div class="flow-metrics">
-                            <span class="completion">Avancement: {{ flow['phase-completion'] }}%</span>
-                            <span class="risk">Risque: {{ flow['risk-level'] }}/5</span>
-                          </div>
-                          <div class="flow-analysis">
-                            <p v-if="flow.strength" class="strength">✅ {{ flow.strength }}</p>
-                            <p v-if="flow.warning" class="warning">⚠️ {{ flow.warning }}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Problems -->
-                    <div class="mt-4">
-                      <h4 class="synthesis-label">🎯 Problématiques</h4>
-                      <div v-for="(problem, actor) in parsedSynthesis.business_model.problem" :key="actor" class="problem-section">
-                        <h5 class="actor-name">{{ actor }}</h5>
-                        <ul class="synthesis-list">
-                          <li v-for="item in problem.items" :key="item">{{ item }}</li>
-                        </ul>
-                        <div class="problem-metrics">
-                          <span class="completion">Validation: {{ problem['phase-completion'] }}%</span>
-                          <span class="risk">Criticité: {{ problem['risk-level'] }}/5</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </template>
-                <div v-else class="pitch-text">
-                  {{ synthesis }} 
-                </div>
-              </div>
-              <div class="flex justify-center gap-4">
-                <button 
-                  class="action-button" 
-                  @click="analyzeSynthesis"
-                  :disabled="isAnalyzing || !synthesis"
-                >
-                  <span v-if="isAnalyzing">Analyse en cours...</span>
-                  <span v-else>Relancer l'analyse</span>
-                </button>
-              </div>
-            </section>
-
-            <!-- Focus Section -->
-            <section class="sub-tab">
-              <h2 class="section-title">🔍 A clarifier</h2>
-              <p>Modèle économique, prospects principaux, bénéfice pour les livreurs,... ?</p>
-              <button class="action-button">
-                Préciser
-              </button>
-            </section>
-          </div>
-
-          <!-- Strengths & Risks View -->
-          <div v-if="currentDiagTab === 'strengths'" class="subtab-container">
-            <section class="sub-tab">
-              <h2 class="section-title">⚖️ Forces & Risques</h2>
-              <div class="two-col">
-                <div class="strengths">
-                  <h3>✅ Forces</h3>
-                  <ul>
-                    <li>Marché porteur</li>
-                    <li>Besoin réel</li>
-                    <li>Avantage concurrentiel</li>
-                  </ul>
-                </div>
-                <div class="risks">
-                  <h3>⚠️ Risques</h3>
-                  <ul>
-                    <li>Dépendance à un acteur clé</li>
-                    <li>Difficulté d'acquisition</li>
-                    <li>Problème d'échelle</li>
-                  </ul>
-                </div>
-              </div>
-              <button class="action-button">
-                En savoir plus
-              </button>
-            </section>
-          </div>
-
-          <!-- Method View -->
-          <div v-if="currentDiagTab === 'method'" class="subtab-container">
-            <section class="sub-tab">
-              <h2 class="section-title">🪛 Méthode</h2>
-              <div class="two-col">
-                <p>
-                  👏 Bravo, tu as déjà formalisé une présentation, et réfléchis sur une solution possible.
-                </p>
-                <p>
-                  ⚠️ Attention : Tu travailles trop sur la solution. Arrête-toi là et valide d'abord les besoins des clients.
-                </p>
-              </div>
-              <button class="action-button">
-                En savoir plus
-              </button>
-            </section>
-          </div>
-
-          <!-- Graph View -->
-          <div v-if="currentDiagTab === 'graph'" class="subtab-container">
-            <section class="sub-tab">
-              <h2 class="section-title">📊 Graphe</h2>
-              <p>Visualisation du projet en cours de développement...</p>
-              <button class="action-button">
-                Voir le détail
-              </button>
-            </section>
-          </div>
-        </div>
-      </main>
-
-      <!-- Navigation Menu -->
-      <nav class="nav-menu">
-        <button class="nav-item" @click="toggleOptions">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z" />
-          </svg>
-          <span>Plus</span>
-        </button>
-
-        <button class="nav-item" @click="currentView = 'diag'">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z" />
-          </svg>
-          <span>Diagnostic</span>
-        </button>
-        
-        <button class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" />
-          </svg>
-          <span>Ressources</span>
-        </button>
-
-        <button class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z" />
-          </svg>
-          <span>Communauté</span>
-        </button>
-
-        <button class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z" />
-          </svg>
-          <span>Actions</span>
-        </button>
-
-        <button class="nav-item chat-button" @click="currentView = 'chat'">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" />
-          </svg>
-          <span>Chat</span>
-        </button>
-      </nav>
-
-      <!-- Menu Options -->
-      <div class="menu-options" v-if="showOptions">
-        <button class="menu-item">Mon compte</button>
-        <button class="menu-item">Paramètres</button>
-      </div>
-
-      <!-- Bottom Section -->
-      <footer class="app-footer">
-        <!-- Action Buttons -->
-        <div class="quick-actions">
-          <button 
-            v-for="action in currentQuickActions" 
-            :key="action"
-            @click="onQuickActionTap(action)"
-            class="secondary-button">
-            {{ action }}
-          </button>
-        </div>
-
-        <!-- Input Field -->
-        <div class="input-container" v-if="currentView === 'chat'">
-          <input 
-            ref="fileInput"
-            type="file"
-            class="hidden"
-            @change="onFileSelected"
-          />
-          <button @click="triggerFileInput" class="icon-button">
-            <svg class="icon" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z" />
-            </svg>
-          </button>
-          <input 
-            v-model="messageText"
-            type="text"
-            placeholder="Écris ou parle..."
-            class="message-input"
-            @keyup.enter="onSendTap"
-          />
-          <button @click="onMicTap" class="icon-button">
-            <svg class="icon" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z" />
-            </svg>
-          </button>
-          <button @click="onSendTap" class="icon-button">
-            <svg class="icon" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
-            </svg>
-          </button>
-        </div>
-      </footer>
+        <ChatView v-if="currentView === 'chat'" :messages="messages" />sages" />
+        <DiagnosticView v-else-if="currentView === 'diag'" :currentDiagTab="currentDiagTab" :progressPercentage="progressPercentage" :currentPhase="currentPhase" />'diag'" :currentDiagTab="currentDiagTab" :progressPercentage="progressPercentage" :currentPhase="currentPhase" />
+      </main>>
+      <NavMenu :currentView="currentView" @toggleOptions="toggleOptions" />:currentView="currentView" @toggleOptions="toggleOptions" />
+      <MenuOptions v-if="showOptions" />      <MenuOptions v-if="showOptions" />
+      <Footer :currentView="currentView" :messageText="messageText" :currentQuickActions="currentQuickActions" />ext="messageText" :currentQuickActions="currentQuickActions" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, nextTick } from 'vue'
-import TurndownService from 'turndown'
-import mammoth from 'mammoth'
-import * as pdfjsLib from 'pdfjs-dist'
+import TurndownService from 'turndown'rndownService from 'turndown'
+import mammoth from 'mammoth'moth'
+import * as pdfjsLib from 'pdfjs-dist'Lib from 'pdfjs-dist'
+import Header from './components/Header.vue'r from './components/Header.vue'
+import SecondaryNav from './components/SecondaryNav.vue'import SecondaryNav from './components/SecondaryNav.vue'
+import ChatView from './components/ChatView.vue'ts/ChatView.vue'
+import DiagnosticView from './components/DiagnosticView.vue'/components/DiagnosticView.vue'
+import NavMenu from './components/NavMenu.vue'ponents/NavMenu.vue'
+import MenuOptions from './components/MenuOptions.vue'
+import Footer from './components/Footer.vue's/Footer.vue'
 
-const messageText = ref('')
-const messages = ref([])
+const messageText = ref('')ext = ref('')
+const messages = ref([])const messages = ref([])
 const synthesis = ref('')
 const isAnalyzing = ref(false)
 const chatContainer = ref(null)
 const parsedSynthesis = computed(() => {
   if (!synthesis.value) return null
   try {
-    const jsonStr = synthesis.value.match(/\{[\s\S]*\}/)?.[0]
+    const jsonStr = synthesis.value.match(/\{[\s\S]*\}/)?.[0]alue.match(/\{[\s\S]*\}/)?.[0]
     if (!jsonStr) return null
-    return JSON.parse(jsonStr)
+    return JSON.parse(jsonStr)jsonStr)
   } catch (err) {
-    console.error('JSON parse error:', err)
+    console.error('JSON parse error:', err)rror:', err)
     return null
   }
 })
-const fileInput = ref(null)
-const showOptions = ref(false)
-const currentView = ref('chat') // Default to chat view
-const currentDiagTab = ref('progress')
+const fileInput = ref(null)= ref(null)
+const showOptions = ref(false)ons = ref(false)
+const currentView = ref('chat') // Default to chat viewconst currentView = ref('chat') // Default to chat view
+const currentDiagTab = ref('progress')ress')
 
-const turndownService = new TurndownService()
+const turndownService = new TurndownService()const turndownService = new TurndownService()
 
 // Constants
 const progressPercentage = 30
@@ -410,17 +57,17 @@ const currentPhase = 'Recherche'
 // Diagnostic tabs
 const diagTabs = [
   { id: 'progress', name: 'Avancement' },
-  { id: 'synthesis', name: 'Synthèse' },
-  { id: 'strengths', name: 'Forces & Risques' },
-  { id: 'method', name: 'Méthode' },
+  { id: 'synthesis', name: 'Synthèse' },', name: 'Synthèse' },
+  { id: 'strengths', name: 'Forces & Risques' },hs', name: 'Forces & Risques' },
+  { id: 'method', name: 'Méthode' },  { id: 'method', name: 'Méthode' },
   { id: 'graph', name: 'Graphe' }
 ]
 
-// Project phases data
-const projectPhases = [
+// Project phases datas data
+const projectPhases = [ses = [
   { name: 'Vision' },
-  { name: 'Recherche' },
-  { name: 'Conception' },
+  { name: 'Recherche' },rche' },
+  { name: 'Conception' },  { name: 'Conception' },
   { name: 'Test' },
   { name: 'Lancement' }
 ]
@@ -433,8 +80,8 @@ const defaultQuickActions = [
   'Dis m\'en plus sur CoachApp'
 ]
 
-// Project evaluation quick actions
-const projectQuickActions = [
+// Project evaluation quick actionsick actions
+const projectQuickActions = [Actions = [
   'Télécharger une présentation',
   'Pose moi des questions plus précises'
 ]
@@ -446,15 +93,15 @@ const diagQuickActions = [
   'Je ne suis pas d\'accord'
 ]
 
-// Computed property for current quick actions
+// Computed property for current quick actionsons
 const currentQuickActions = computed(() => {
   if (currentView.value === 'diag') {
     return diagQuickActions
   }
   
-  const lastBotMessage = [...messages.value].reverse().find(m => m.type === 'bot' && !m.loading)
-  if (lastBotMessage?.text === 'Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') {
-    return projectQuickActions
+  const lastBotMessage = [...messages.value].reverse().find(m => m.type === 'bot' && !m.loading)essages.value].reverse().find(m => m.type === 'bot' && !m.loading)
+  if (lastBotMessage?.text === 'Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') { présente-le moi (tu peux uploader une présentation)') {
+    return projectQuickActionsns
   }
   return defaultQuickActions
 })
@@ -467,10 +114,10 @@ async function sendMessage(text) {
     })
 
     addMessage({
-      type: 'bot',
+      type: 'bot',      type: 'bot',
       text: '',
-      loading: true
-    })
+      loading: truerue
+    })    })
 
     const response = await $fetch('/api/chat', {
       method: 'POST',
@@ -478,11 +125,11 @@ async function sendMessage(text) {
         messages: [
           {
             role: 'system',
-            content: 'You are CoachApp, an AI assistant helping entrepreneurs validate and develop their business ideas. Be concise, practical and encouraging.'
+            content: 'You are CoachApp, an AI assistant helping entrepreneurs validate and develop their business ideas. Be concise, practical and encouraging.'t: 'You are CoachApp, an AI assistant helping entrepreneurs validate and develop their business ideas. Be concise, practical and encouraging.'
           },
           {
-            role: 'user',
-            content: text
+            role: 'user',',
+            content: textext
           }
         ]
       }
@@ -494,8 +141,8 @@ async function sendMessage(text) {
       loading: false
     }
   } catch (error) {
-    console.error('Error sending message:', error)
-    messages.value[messages.value.length - 1] = {
+    console.error('Error sending message:', error)rror sending message:', error)
+    messages.value[messages.value.length - 1] = {ength - 1] = {
       type: 'bot',
       text: 'Désolé, une erreur est survenue. Veuillez réessayer.',
       loading: false
@@ -503,90 +150,90 @@ async function sendMessage(text) {
   }
 }
 
-async function analyzeSynthesis() {
-  if (!synthesis.value || isAnalyzing.value) return
+async function analyzeSynthesis() {hesis() {
+  if (!synthesis.value || isAnalyzing.value) return  if (!synthesis.value || isAnalyzing.value) return
   
   isAnalyzing.value = true
   const originalSynthesis = synthesis.value
   
   try {
-    await sendMessage(`Here is the user's business idea
+    await sendMessage(`Here is the user's business idea idea
 ''
 ${originalSynthesis}
 ''
-provide your answer following this json example for coachapp : 
+provide your answer following this json example for coachapp : coachapp : 
 ''
 {
 "business_model": {
 "name": "CoachApp",
 "description": "Assistant IA pour entrepreneurs",
 "actors": [
-{ "role": "Utilisateur", "contribution": "Utilisation de l'outil" },
-{ "role": "Incubateur", "contribution": "Mise en relation avec startups" },
-{ "role": "Coach", "contribution": "Accompagnement des entrepreneurs" }
+{ "role": "Utilisateur", "contribution": "Utilisation de l'outil" },bution": "Utilisation de l'outil" },
+{ "role": "Incubateur", "contribution": "Mise en relation avec startups" },ibution": "Mise en relation avec startups" },
+{ "role": "Coach", "contribution": "Accompagnement des entrepreneurs" }tion": "Accompagnement des entrepreneurs" }
 ],
-"value_flows": {
+"value_flows": {"value_flows": {
 "Utilisateur": {
 "items": [
-{ "from": "CoachApp", "to": "Utilisateur", "value": "Guidance IA et outils business" }
+{ "from": "CoachApp", "to": "Utilisateur", "value": "Guidance IA et outils business" }ls business" }
 ],
 "phase-completion": 70,
 "risk-level": 2,
-"underlying-assumptions": "Les entrepreneurs sont autonomes mais ont besoin d'un cadre structurant.",
-"supporting-evidence": "Retours utilisateurs et taux d'engagement sur les modules IA.",
-"strength": "Automatisation et adaptabilité de l'IA.",
+"underlying-assumptions": "Les entrepreneurs sont autonomes mais ont besoin d'un cadre structurant.",structurant.",
+"supporting-evidence": "Retours utilisateurs et taux d'engagement sur les modules IA.",rs utilisateurs et taux d'engagement sur les modules IA.",
+"strength": "Automatisation et adaptabilité de l'IA.",,
 "warning": "Manque d'accompagnement humain pour les cas complexes."
 },
 "Incubateur": {
 "items": [
-{ "from": "CoachApp", "to": "Incubateur", "value": "Suivi des startups accompagnées" }
+{ "from": "CoachApp", "to": "Incubateur", "value": "Suivi des startups accompagnées" }: "Incubateur", "value": "Suivi des startups accompagnées" }
 ],
 "phase-completion": 50,
 "risk-level": 3,
-"underlying-assumptions": "Les incubateurs veulent optimiser le suivi sans effort supplémentaire.",
-"supporting-evidence": "Tests avec incubateurs partenaires.",
-"strength": "Gain de temps sur le reporting et centralisation des données.",
-"warning": "Nécessité d'intégration avec leurs outils existants."
+"underlying-assumptions": "Les incubateurs veulent optimiser le suivi sans effort supplémentaire.",ubateurs veulent optimiser le suivi sans effort supplémentaire.",
+"supporting-evidence": "Tests avec incubateurs partenaires.", "Tests avec incubateurs partenaires.",
+"strength": "Gain de temps sur le reporting et centralisation des données.", temps sur le reporting et centralisation des données.",
+"warning": "Nécessité d'intégration avec leurs outils existants." existants."
 },
 "Coach": {
 "items": [
-{ "from": "CoachApp", "to": "Coach", "value": "Visibilité et clients potentiels" }
+{ "from": "CoachApp", "to": "Coach", "value": "Visibilité et clients potentiels" }té et clients potentiels" }
 ],
 "phase-completion": 60,
 "risk-level": 2,
-"underlying-assumptions": "Les coachs cherchent activement des clients qualifiés.",
-"supporting-evidence": "Feedback de coachs sur les mises en relation.",
-"strength": "Accès direct à des entrepreneurs en recherche d'accompagnement.",
-"warning": "Qualité des mises en relation à affiner."
+"underlying-assumptions": "Les coachs cherchent activement des clients qualifiés.", "Les coachs cherchent activement des clients qualifiés.",
+"supporting-evidence": "Feedback de coachs sur les mises en relation.",": "Feedback de coachs sur les mises en relation.",
+"strength": "Accès direct à des entrepreneurs en recherche d'accompagnement.",ect à des entrepreneurs en recherche d'accompagnement.",
+"warning": "Qualité des mises en relation à affiner.""warning": "Qualité des mises en relation à affiner."
 }
 },
 "problem": {
 "Utilisateur": {
-"items": ["Difficulté à structurer un projet", "Manque de guidance pour valider un business model"],
+"items": ["Difficulté à structurer un projet", "Manque de guidance pour valider un business model"],", "Manque de guidance pour valider un business model"],
 "phase-completion": 80,
 "risk-level": 1,
-"underlying-assumptions": "Les entrepreneurs veulent un cadre clair pour avancer.",
-"supporting-evidence": "Interviews utilisateurs et tests UX.",
-"strength": "Clarté du parcours utilisateur.",
-"warning": "Besoin de personnalisation avancée."
+"underlying-assumptions": "Les entrepreneurs veulent un cadre clair pour avancer.",s": "Les entrepreneurs veulent un cadre clair pour avancer.",
+"supporting-evidence": "Interviews utilisateurs et tests UX.",ence": "Interviews utilisateurs et tests UX.",
+"strength": "Clarté du parcours utilisateur.","strength": "Clarté du parcours utilisateur.",
+"warning": "Besoin de personnalisation avancée."ancée."
 },
 "Incubateur": {
-"items": ["Manque d'outils pour suivre les startups", "Données fragmentées"],
+"items": ["Manque d'outils pour suivre les startups", "Données fragmentées"],ragmentées"],
 "phase-completion": 40,
 "risk-level": 4,
-"underlying-assumptions": "Les incubateurs manquent d'outils unifiés.",
-"supporting-evidence": "Retours d'incubateurs partenaires.",
-"strength": "Centralisation des informations.",
-"warning": "Intégration avec outils tiers complexe."
+"underlying-assumptions": "Les incubateurs manquent d'outils unifiés.",bateurs manquent d'outils unifiés.",
+"supporting-evidence": "Retours d'incubateurs partenaires.", "Retours d'incubateurs partenaires.",
+"strength": "Centralisation des informations.",s.",
+"warning": "Intégration avec outils tiers complexe."s complexe."
 },
 "Coach": {
-"items": ["Difficulté à trouver des entrepreneurs à accompagner"],
+"items": ["Difficulté à trouver des entrepreneurs à accompagner"],à trouver des entrepreneurs à accompagner"],
 "phase-completion": 60,
 "risk-level": 2,
-"underlying-assumptions": "Les coachs veulent une plateforme de mise en relation efficace.",
-"supporting-evidence": "Analyse des plateformes existantes.",
+"underlying-assumptions": "Les coachs veulent une plateforme de mise en relation efficace.",s": "Les coachs veulent une plateforme de mise en relation efficace.",
+"supporting-evidence": "Analyse des plateformes existantes.",tes.",
 "strength": "Facilité de mise en relation.",
-"warning": "Forte concurrence avec d'autres plateformes."
+"warning": "Forte concurrence avec d'autres plateformes."teformes."
 }
 }
 }
@@ -596,117 +243,117 @@ provide your answer following this json example for coachapp :
 ''
 `)
 
-    // Get the last bot message which contains the analysis
+    // Get the last bot message which contains the analysise which contains the analysis
     const analysisMessage = messages.value[messages.value.length - 1]
-    if (analysisMessage && analysisMessage.type === 'bot') {
+    if (analysisMessage && analysisMessage.type === 'bot') {ssage.type === 'bot') {
       synthesis.value = analysisMessage.text
     }
 
   } finally {
-    isAnalyzing.value = false
+    isAnalyzing.value = falsee = false
   }
 }
 
-function toggleOptions() {
+function toggleOptions() {ns() {
   showOptions.value = !showOptions.value
 }
 
-function scrollToBottom() {
-  nextTick(() => {
-    if (chatContainer.value) {
-      const container = chatContainer.value
+function scrollToBottom() {m() {
+  nextTick(() => { {
+    if (chatContainer.value) {    if (chatContainer.value) {
+      const container = chatContainer.valueontainer.value
       container.scrollTop = container.scrollHeight
     }
   })
 }
 
 function addMessage(message) {
-  messages.value.push(message)
+  messages.value.push(message)essage)
   scrollToBottom()
 }
 
-async function addBotResponse(text) {
-  addMessage({
+async function addBotResponse(text) {n addBotResponse(text) {
+  addMessage({  addMessage({
     type: 'bot',
     text: '',
     loading: true
   })
 
-  await new Promise(resolve => setTimeout(resolve, 2000))
+  await new Promise(resolve => setTimeout(resolve, 2000))ise(resolve => setTimeout(resolve, 2000))
 
-  messages.value[messages.value.length - 1] = {
-    type: 'bot',
+  messages.value[messages.value.length - 1] = {messages.value.length - 1] = {
+    type: 'bot',    type: 'bot',
     text,
     loading: false
   }
 }
 
-async function handleProjectEvaluation() {
-  await sendMessage('Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') 
+async function handleProjectEvaluation() {ndleProjectEvaluation() {
+  await sendMessage('Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') sendMessage('Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') 
 }
 
 async function onQuickActionTap(action) {
   addMessage({
     type: 'user',
     text: action
-  })
+  })  })
   
   if (action === 'Évalue mon projet') {
     await handleProjectEvaluation()
-  } else if (action === 'Télécharger une présentation') {
+  } else if (action === 'Télécharger une présentation') {ion === 'Télécharger une présentation') {
     triggerFileInput()
   } else {
-    await sendMessage(action)
+    await sendMessage(action)    await sendMessage(action)
   }
 }
 
-function onMicTap() {
-  console.log('Microphone tapped')
+function onMicTap() {p() {
+  console.log('Microphone tapped')ed')
 }
 
 function onSendTap() {
   if (messageText.value.trim()) {
     const text = messageText.value
-    messageText.value = ''
+    messageText.value = ''value = ''
     
-    sendMessage(text)
+    sendMessage(text)ext)
   }
-}
+}}
 
 function triggerFileInput() {
   fileInput.value.click()
 }
 
-async function onFileSelected(event) {
-  const file = event.target.files[0]
+async function onFileSelected(event) {async function onFileSelected(event) {
+  const file = event.target.files[0]iles[0]
   if (file) {
-    const extractedText = await extractText(file)
+    const extractedText = await extractText(file) extractText(file)
     
-    if (extractedText) {
+    if (extractedText) {ext) {
       synthesis.value = extractedText
     }
     
     addMessage({
       type: 'user',
-      text: `Document joint : ${file.name}`
+      text: `Document joint : ${file.name}
     })
-    
+        
     if (extractedText) {
-      await addBotResponse('Voici le contenu extrait de ton document:\n\n' + extractedText)
+      await addBotResponse('Voici le contenu extrait de ton document:\n\n' + extractedText)t:\n\n' + extractedText)
     } else {
-      await addBotResponse('Je n\'ai pas pu extraire le contenu de ce type de document.')
+      await addBotResponse('Je n\'ai pas pu extraire le contenu de ce type de document.')'Je n\'ai pas pu extraire le contenu de ce type de document.')
     }
     
     currentView.value = 'diag'
-    event.target.value = ''
+    event.target.value = ''rget.value = ''
   }
 }
 
-// Document text extraction functions
-function readFileAsText(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result)
+// Document text extraction functionsxtraction functions
+function readFileAsText(file) {Text(file) {
+  return new Promise((resolve, reject) => {ise((resolve, reject) => {
+    const reader = new FileReader()()
+    reader.onload = () => resolve(reader.result)=> resolve(reader.result)
     reader.onerror = reject
     reader.readAsText(file)
   })
@@ -714,58 +361,58 @@ function readFileAsText(file) {
 
 function readFileAsArrayBuffer(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result)
+    const reader = new FileReader() new FileReader()
+    reader.onload = () => resolve(reader.result) () => resolve(reader.result)
     reader.onerror = reject
     reader.readAsArrayBuffer(file)
   })
 }
 
-async function extractText(file) {
-  const extension = file.name.split('.').pop().toLowerCase()
+async function extractText(file) { extractText(file) {
+  const extension = file.name.split('.').pop().toLowerCase()on = file.name.split('.').pop().toLowerCase()
   
   try {
-    let extractedText = ''
-    
-    if (extension === 'txt' || extension === 'md') {
-      extractedText = await readFileAsText(file)
+    let extractedText = ''ractedText = ''
+        
+    if (extension === 'txt' || extension === 'md') {ion === 'txt' || extension === 'md') {
+      extractedText = await readFileAsText(file)le)
     }
-    else if (extension === 'docx') {
-      const arrayBuffer = await readFileAsArrayBuffer(file)
-      const result = await mammoth.extractRawText({ arrayBuffer })
-      extractedText = result.value
+    else if (extension === 'docx') {ocx') {
+      const arrayBuffer = await readFileAsArrayBuffer(file)leAsArrayBuffer(file)
+      const result = await mammoth.extractRawText({ arrayBuffer })      const result = await mammoth.extractRawText({ arrayBuffer })
+      extractedText = result.valuet.value
     }
-    else if (extension === 'pdf') {
-      const arrayBuffer = await readFileAsArrayBuffer(file)
-      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise
+    else if (extension === 'pdf') {= 'pdf') {
+      const arrayBuffer = await readFileAsArrayBuffer(file)t readFileAsArrayBuffer(file)
+      const pdf = await pdfjsLib.getDocument(arrayBuffer).promiseb.getDocument(arrayBuffer).promise
       const textContent = []
       
-      for (let i = 1; i <= pdf.numPages; i++) {
+      for (let i = 1; i <= pdf.numPages; i++) {or (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i)
-        const content = await page.getTextContent()
-        const text = content.items.map(item => item.str).join(' ')
-        textContent.push(text)
+        const content = await page.getTextContent() page.getTextContent()
+        const text = content.items.map(item => item.str).join(' ')tems.map(item => item.str).join(' ')
+        textContent.push(text)nt.push(text)
       }
       
-      extractedText = textContent.join('\n\n')
-    }
-    else if (extension === 'html') {
-      const text = await readFileAsText(file)
+      extractedText = textContent.join('\n\n')   extractedText = textContent.join('\n\n')
+    }  }
+    else if (extension === 'html') {'html') {
+      const text = await readFileAsText(file)ileAsText(file)
       extractedText = turndownService.turndown(text)
     }
-    
-    console.log('Extracted text:', extractedText)
-    return extractedText
-  } catch (error) {
-    console.error('Error extracting text:', error)
+        
+    console.log('Extracted text:', extractedText)ext)
+    return extractedText    return extractedText
+  } catch (error) {rror) {
+    console.error('Error extracting text:', error)acting text:', error)
     return null
-  }
+  }  }
 }
 
 </script>
 
 <style>
-/* All styles from assets/styles/main.css */
+/* All styles from assets/styles/main.css */n.css */
 @import './assets/styles/main.css';
 
 .warning-message {
@@ -773,15 +420,15 @@ async function extractText(file) {
   font-size: 0.875rem;
 }
 
-/* Domain sections styles */
+/* Domain sections styles */ */
 .domains-grid {
   display: grid;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1rem; gap: 1rem;
+  margin-top: 1rem;  margin-top: 1rem;
 }
 
 .domain-item {
-  background: var(--color-background);
+  background: var(--color-background);round);
   border-radius: 12px;
   padding: 1rem;
 }
@@ -790,86 +437,86 @@ async function extractText(file) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-}
+  gap: 1rem; gap: 1rem;
+}}
 
 .domain-header h4 {
   color: var(--color-text);
   font-size: 1rem;
   font-weight: 500;
-  margin: 0;
-}
+  margin: 0; margin: 0;
+}}
 
 .domain-progress {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-width: 120px;
+  gap: 0.5rem;ap: 0.5rem;
+  min-width: 120px;min-width: 120px;
 }
 
-.domain-progress .progress-bar {
+.domain-progress .progress-bar { 
   flex: 1;
   height: 8px;
-  background: var(--color-background-alt);
-  border-radius: 4px;
+  background: var(--color-background-alt);background: var(--color-background-alt);
+  border-radius: 4px;  border-radius: 4px;
   overflow: hidden;
 }
 
 .domain-progress .progress-fill {
-  height: 100%;
-  background: var(--color-primary);
-  transition: width 0.3s ease-in-out;
+  height: 100%;100%;
+  background: var(--color-primary);ground: var(--color-primary);
+  transition: width 0.3s ease-in-out;  transition: width 0.3s ease-in-out;
 }
 
 .domain-progress .progress-text {
-  font-size: 0.875rem;
-  color: var(--color-text-light);
-  min-width: 3em;
+  font-size: 0.875rem;em;
+  color: var(--color-text-light);r: var(--color-text-light);
+  min-width: 3em;  min-width: 3em;
   text-align: right;
 }
 
 .mt-8 {
-  margin-top: 2rem;
+  margin-top: 2rem;p: 2rem;
 }
 
-.action-button:disabled {
-  opacity: 0.5;
+.action-button:disabled {on:disabled {
+  opacity: 0.5;0.5;
   cursor: not-allowed;
-  background-color: var(--color-background);
+  background-color: var(--color-background);-color-background);
 }
 
-/* Synthesis Styles */
-.synthesis-content {
-  margin: 1rem 0;
+/* Synthesis Styles */hesis Styles */
+.synthesis-content {esis-content {
+  margin: 1rem 0;  margin: 1rem 0;
 }
 
 .synthesis-section {
-  margin-bottom: 2rem;
+  margin-bottom: 2rem;m;
 }
 
 .synthesis-subtitle {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 500;;
   color: var(--color-primary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;rem;
 }
 
-.synthesis-description {
-  font-size: 0.9rem;
+.synthesis-description {synthesis-description {
+  font-size: 0.9rem;  font-size: 0.9rem;
   color: var(--color-text);
   margin-bottom: 1rem;
-  line-height: 1.4;
+  line-height: 1.4;line-height: 1.4;
 }
 
-.synthesis-label {
-  font-size: 1rem;
+.synthesis-label {ynthesis-label {
+  font-size: 1rem;size: 1rem;
   font-weight: 500;
-  color: var(--color-text);
-  margin-bottom: 0.5rem;
+  color: var(--color-text);color: var(--color-text);
+  margin-bottom: 0.5rem;rem;
 }
 
-.synthesis-list {
-  list-style: none;
+.synthesis-list {ynthesis-list {
+  list-style: none; list-style: none;
   padding: 0;
   margin: 0.5rem 0;
 }
@@ -877,23 +524,23 @@ async function extractText(file) {
 .synthesis-list li {
   padding: 0.25rem 0;
   font-size: 0.9rem;
-  color: var(--color-text);
+  color: var(--color-text);color: var(--color-text);
 }
 
-.value-flow {
+.value-flow {w {
   background: var(--color-background);
-  border-radius: 8px;
+  border-radius: 8px;border-radius: 8px;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; 1rem;
 }
 
 .actor-name {
   font-weight: 500;
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
+  color: var(--color-primary);color: var(--color-primary);
+  margin-bottom: 0.5rem;: 0.5rem;
 }
 
-.flow-details {
+.flow-details {low-details {
   padding-left: 1rem;
 }
 
@@ -902,11 +549,11 @@ async function extractText(file) {
   margin-bottom: 0.25rem;
 }
 
-.flow-metrics {
+.flow-metrics {ics {
   display: flex;
-  gap: 1rem;
+  gap: 1rem;gap: 1rem;
   margin: 0.5rem 0;
-  font-size: 0.8rem;
+  font-size: 0.8rem;rem;
 }
 
 .completion {
@@ -914,7 +561,7 @@ async function extractText(file) {
 }
 
 .risk {
-  color: var(--color-text-light);
+  color: var(--color-text-light);olor-text-light);
 }
 
 .flow-analysis {
@@ -922,8 +569,8 @@ async function extractText(file) {
   font-size: 0.85rem;
 }
 
-.strength {
-  color: var(--color-primary);
+.strength {trength {
+  color: var(--color-primary);color-primary);
   margin-bottom: 0.25rem;
 }
 
@@ -932,16 +579,16 @@ async function extractText(file) {
 }
 
 .problem-section {
-  background: var(--color-background);
+  background: var(--color-background);nd: var(--color-background);
   border-radius: 8px;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; 1rem;
 }
 
 .problem-metrics {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+  gap: 1rem; gap: 1rem;
+  margin-top: 0.5rem; margin-top: 0.5rem;
+  font-size: 0.8rem; font-size: 0.8rem;
 }
 </style>

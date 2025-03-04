@@ -1,7 +1,7 @@
 /* Color Palette */
 :root {
   /* Primary Colors */
-  --color-primary: #fe4d00ff;
+  --color-primary: rgb(0, 254, 17);
   --color-primary-light: #3FAB6E;
   --color-primary-dark: #1E5D3E;
   
