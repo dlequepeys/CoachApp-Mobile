@@ -3,9 +3,9 @@
     <div class="app-wrapper">
       <!-- Header Section -->
       <header class="app-header">
-        <h1 class="app-title">{{ currentView === 'diag' ? 'Diagnostic' : 'CoachApp' }}</h1>
+        <h1 class="app-title">{{ currentView === 'diag' ? 'Diagnostic' : 'CoachApp' }}</h1> <!-- TODO: Change title based on current view -->
         <p class="app-subtitle" v-if="currentView !== 'diag'">
-          Ton assistant IA de création d'entreprise
+          Ton assistant IA de création d'entreprise <!--TODO: créer des sous titres pour toutes les sections-->
         </p>
       </header>
 
@@ -49,7 +49,7 @@
         <!-- Diagnostic View -->
         <div v-else-if="currentView === 'diag'" class="diag-view">
 
-          <!-- Progress Info -->
+          <!-- Progress Subtab -->
           <div v-if="currentDiagTab === 'progress'" class="subtab-container">
               <section class="sub-tab">
               <h2 class="section-title">📈 Avancement</h2>
@@ -68,11 +68,11 @@
               L'objectif de cette phase est de comprendre suffisamment le marché et les clients pour commencer la phase suivante de conception
             </p>
 
-                <h3 class="section-title mt-8">🎯 Par domaine</h3>
+                <h3 class="section-title mt-8"> Par domaine</h3>
                 <div class="domains-grid">
                   <div class="domain-item">
                     <div class="domain-header">
-                      <h4>Segmentation client</h4>
+                      <h4>🎯 Segmentation client</h4>
                       <div class="domain-progress">
                         <div class="progress-bar">
                           <div class="progress-fill" style="width: 60%"></div>
@@ -84,7 +84,7 @@
                   
                   <div class="domain-item">
                     <div class="domain-header">
-                      <h4>Compréhension besoin</h4>
+                      <h4>💔 Compréhension besoin</h4>
                       <div class="domain-progress">
                         <div class="progress-bar">
                           <div class="progress-fill" style="width: 30%"></div>
@@ -95,7 +95,7 @@
                   </div>
                   <div class="domain-item">
                     <div class="domain-header">
-                      <h4>Etude concurrence</h4>
+                      <h4>🦈 Etude concurrence</h4>
                       <div class="domain-progress">
                         <div class="progress-bar">
                           <div class="progress-fill" style="width: 30%"></div>
@@ -104,7 +104,7 @@
                       </div>
                     </div>
                      <div class="domain-header">
-                      <h4>Faisabilité économique</h4>
+                      <h4>💸 Faisabilité économique</h4>
                       <div class="domain-progress">
                         <div class="progress-bar">
                           <div class="progress-fill" style="width: 30%"></div>
@@ -118,9 +118,8 @@
               </section>
           </div>
 
-          <!-- Sections -->
           <div v-if="currentDiagTab === 'synthesis'" class="subtab-container">
-            <!-- Pitch Section -->
+            <!-- Pitch Subtab -->
             <section class="sub-tab">
               <h2 class="section-title">🎤 Pitch</h2>
               <p class="pitch-text">
@@ -135,6 +134,7 @@
               <div v-if="!synthesis" class="pitch-text">
                 Aucun document analysé pour le moment.
               </div>
+              <!-- Display of AI generated synthesis-->
               <div v-else class="synthesis-content">
                 <template v-if="parsedSynthesis">
                   <!-- Business Model Section -->
@@ -189,7 +189,7 @@
                     </div>
                   </div>
                 </template>
-                <div v-else class="pitch-text">
+                <div v-else class="pitch-text"> <!--TODO: revoir : dans quel cas s'afficherait ? afficherait la synthèse brute au cas d'échec du pasing de synthesis (synthesis existe mais pas parsedsyntehsis ?-->
                   {{ synthesis }} 
                 </div>
               </div>
@@ -279,7 +279,7 @@
         <button class="nav-item" @click="toggleOptions">
           <svg class="nav-icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z" />
-          </svg>
+          </svg><!--TODO: remplacer par fontawesome SVG-->
           <span>Plus</span>
         </button>
 
@@ -327,7 +327,7 @@
 
       <!-- Bottom Section -->
       <footer class="app-footer">
-        <!-- Action Buttons -->
+        <!-- Quick-Action Buttons -->
         <div class="quick-actions">
           <button 
             v-for="action in currentQuickActions" 
@@ -354,7 +354,7 @@
           <input 
             v-model="messageText"
             type="text"
-            placeholder="Écris ou parle..."
+            placeholder="Écris ..."
             class="message-input"
             @keyup.enter="onSendTap"
           />
@@ -385,7 +385,7 @@ const messages = ref([])
 const synthesis = ref('')
 const isAnalyzing = ref(false)
 const chatContainer = ref(null)
-const parsedSynthesis = computed(() => {
+const parsedSynthesis = computed(() => { //TODO: revoir  pourquoi besoin de parser
   if (!synthesis.value) return null
   try {
     const jsonStr = synthesis.value.match(/\{[\s\S]*\}/)?.[0]
@@ -404,6 +404,8 @@ const currentDiagTab = ref('progress')
 const turndownService = new TurndownService()
 
 // Constants
+// TODO: internationalisation
+
 const progressPercentage = 30
 const currentPhase = 'Recherche'
 
@@ -452,20 +454,20 @@ const currentQuickActions = computed(() => {
     return diagQuickActions
   }
   
-  const lastBotMessage = [...messages.value].reverse().find(m => m.type === 'bot' && !m.loading)
+  const lastBotMessage = [...messages.value].reverse().find(m => m.type === 'bot' && !m.loading) //TODO: revoir la génération des quickactions selon l'intention du dernier message du bot (ici aiguillage en dur)
   if (lastBotMessage?.text === 'Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') {
     return projectQuickActions
   }
   return defaultQuickActions
 })
 
-async function sendMessage(text) {
+async function sendUserMessage(text) { 
   try {
     addMessage({
       type: 'user',
       text
     })
-
+//TODO: sortir et créer une fonction de réponse du bot en dehors de sendMessage
     addMessage({
       type: 'bot',
       text: '',
@@ -508,9 +510,10 @@ async function analyzeSynthesis() {
   
   isAnalyzing.value = true
   const originalSynthesis = synthesis.value
+  //TODO: revoir, l'envoi de la synthèse ne devrait pas être affichée comme un message de l'utilisateur mais envoyé à l'api
   
   try {
-    await sendMessage(`Here is the user's business idea
+    await sendUserMessage(`Here is the user's business idea 
 ''
 ${originalSynthesis}
 ''
@@ -597,7 +600,7 @@ provide your answer following this json example for coachapp :
 `)
 
     // Get the last bot message which contains the analysis
-    const analysisMessage = messages.value[messages.value.length - 1]
+    const analysisMessage = messages.value[messages.value.length - 1] //TODO: pas besoin de mettre dans le message user
     if (analysisMessage && analysisMessage.type === 'bot') {
       synthesis.value = analysisMessage.text
     }
@@ -625,7 +628,7 @@ function addMessage(message) {
   scrollToBottom()
 }
 
-async function addBotResponse(text) {
+async function addBotResponse(text) {//TODO: peut-on réutiliser cette fonction dans l'appel de sendUserMessage ?
   addMessage({
     type: 'bot',
     text: '',
@@ -642,21 +645,22 @@ async function addBotResponse(text) {
 }
 
 async function handleProjectEvaluation() {
-  await sendMessage('Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') 
+  await sendUserMessage('Pour que j\'évalue ton projet, présente-le moi (tu peux uploader une présentation)') 
 }
 
 async function onQuickActionTap(action) {
-  addMessage({
+ /* addMessage({
     type: 'user',
     text: action
   })
+    */
   
-  if (action === 'Évalue mon projet') {
+  if (action === 'Évalue mon projet') { //TODO: mettre ici l'aiguillage en fonction des quick actions 
     await handleProjectEvaluation()
   } else if (action === 'Télécharger une présentation') {
     triggerFileInput()
   } else {
-    await sendMessage(action)
+    await sendUserMessage(action)
   }
 }
 
@@ -669,7 +673,7 @@ function onSendTap() {
     const text = messageText.value
     messageText.value = ''
     
-    sendMessage(text)
+    sendUserMessage(text)
   }
 }
 
@@ -692,7 +696,7 @@ async function onFileSelected(event) {
     })
     
     if (extractedText) {
-      await addBotResponse('Voici le contenu extrait de ton document:\n\n' + extractedText)
+      await addBotResponse('J\'ai extrait le contenu de ton document. Mon analyse est dans l\'onglet Diagnostic')
     } else {
       await addBotResponse('Je n\'ai pas pu extraire le contenu de ce type de document.')
     }
@@ -735,7 +739,7 @@ async function extractText(file) {
       const result = await mammoth.extractRawText({ arrayBuffer })
       extractedText = result.value
     }
-    else if (extension === 'pdf') {
+    else if (extension === 'pdf') { //FIXME: parseur pdf ne marche pas
       const arrayBuffer = await readFileAsArrayBuffer(file)
       const pdf = await pdfjsLib.getDocument(arrayBuffer).promise
       const textContent = []
@@ -773,7 +777,8 @@ async function extractText(file) {
   font-size: 0.875rem;
 }
 
-/* Domain sections styles */
+/* Domain sections styles */ 
+/* TODO: est-ce que ces styles sont pertinents et devraient êetre dans main ou autre css dédiée ?*/
 .domains-grid {
   display: grid;
   gap: 1rem;

@@ -1,22 +1,21 @@
-import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, eventHandler, appendResponseHeader, removeResponseHeader, createError, getResponseHeader, defineEventHandler, readBody, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, setHeaders, sendRedirect, proxyRequest, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, setResponseHeaders } from 'file:///home/project/node_modules/h3/dist/index.mjs';
-import destr from 'file:///home/project/node_modules/destr/dist/index.mjs';
-import { createHooks } from 'file:///home/project/node_modules/hookable/dist/index.mjs';
-import { createFetch as createFetch$1, Headers as Headers$1 } from 'file:///home/project/node_modules/ofetch/dist/node.mjs';
-import { createCall, createFetch } from 'file:///home/project/node_modules/unenv/runtime/fetch/index.mjs';
-import { withQuery, joinURL, decodePath, withLeadingSlash, withoutTrailingSlash, parseURL, withoutBase, getQuery } from 'file:///home/project/node_modules/ufo/dist/index.mjs';
-import { klona } from 'file:///home/project/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file:///home/project/node_modules/defu/dist/defu.mjs';
-import { snakeCase } from 'file:///home/project/node_modules/scule/dist/index.mjs';
-import { createStorage, defineDriver, prefixStorage } from 'file:///home/project/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///home/project/node_modules/unstorage/drivers/fs.mjs';
-import fsDriver from 'file:///home/project/node_modules/unstorage/drivers/fs-lite.mjs';
-import lruCache from 'file:///home/project/node_modules/unstorage/drivers/lru-cache.mjs';
-import { toRouteMatcher, createRouter } from 'file:///home/project/node_modules/radix3/dist/index.mjs';
-import { getContext } from 'file:///home/project/node_modules/unctx/dist/index.mjs';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { getRequestHeader, splitCookiesString, setResponseStatus, setResponseHeader, send, getRequestHeaders, eventHandler, appendResponseHeader, removeResponseHeader, createError, getResponseHeader, defineEventHandler, readBody, handleCacheHeaders, createEvent, fetchWithEvent, isEvent, setHeaders, sendRedirect, proxyRequest, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, setResponseHeaders } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/h3/dist/index.mjs';
+import destr from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/destr/dist/index.mjs';
+import { createHooks } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/hookable/dist/index.mjs';
+import { createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/ofetch/dist/node.mjs';
+import { createCall, createFetch } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/unenv/runtime/fetch/index.mjs';
+import { withQuery, joinURL, decodePath, withLeadingSlash, withoutTrailingSlash, parseURL, withoutBase, getQuery } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/ufo/dist/index.mjs';
+import { klona } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/klona/dist/index.mjs';
+import defu, { defuFn } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/defu/dist/defu.mjs';
+import { snakeCase } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/scule/dist/index.mjs';
 import { promises } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'file:///home/project/node_modules/pathe/dist/index.mjs';
-import { hash } from 'file:///home/project/node_modules/ohash/dist/index.mjs';
+import { dirname, resolve } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/pathe/dist/index.mjs';
+import { hash } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/ohash/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/unstorage/drivers/fs.mjs';
+import file_58_47_47_47C_58_47Users_47domin_47Coachapp_45mobile_3720local_47CoachApp_45Mobile_47node_modules_47nuxt_47dist_47core_47runtime_47nitro_47cache_45driver_46js from 'file:///C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/nuxt/dist/core/runtime/nitro/cache-driver.js';
+import unstorage_47drivers_47fs_45lite from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/unstorage/drivers/fs-lite.mjs';
+import { toRouteMatcher, createRouter } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/radix3/dist/index.mjs';
 
 function hasReqHeader(event, name, includes) {
   const value = getRequestHeader(event, name);
@@ -130,7 +129,7 @@ const errorHandler = (async function errorhandler(error, event) {
     }
   ).catch(() => null);
   if (!res) {
-    const { template } = await import('../_/error-500.mjs');
+    const { template } = await import('./error-500.mjs');
     if (event.handled) {
       return;
     }
@@ -177,7 +176,7 @@ function getAsset (id) {
 
 const METHODS = /* @__PURE__ */ new Set(["HEAD", "GET"]);
 const EncodingMap = { gzip: ".gz", br: ".br" };
-const _6u9mpj = eventHandler((event) => {
+const _AKJKLv = eventHandler((event) => {
   if (event.method && !METHODS.has(event.method)) {
     return;
   }
@@ -244,7 +243,7 @@ const _6u9mpj = eventHandler((event) => {
   return readAsset(id);
 });
 
-const _k5i51b = defineEventHandler(async (event) => {
+const _wQ0rIv = defineEventHandler(async (event) => {
   const start = Date.now();
   const requestBody = await readRequestBody(event).catch(() => null);
   console.log(`[API] ${(/* @__PURE__ */ new Date()).toISOString()} Request:`, {
@@ -289,17 +288,17 @@ async function readRequestBody(event) {
   }
 }
 
-const _lazy_CyA0ra = () => import('../routes/api/chat.post.mjs');
-const _lazy_kdwqQN = () => import('../_/renderer.mjs').then(function (n) { return n.r; });
+const _lazy_pJmwHu = () => import('../routes/api/chat.post.mjs');
+const _lazy_w4nIEp = () => import('./renderer.mjs').then(function (n) { return n.r; });
 
 const handlers = [
-  { route: '', handler: _6u9mpj, lazy: false, middleware: true, method: undefined },
-  { route: '', handler: _k5i51b, lazy: false, middleware: true, method: undefined },
-  { route: '/api/chat', handler: _lazy_CyA0ra, lazy: true, middleware: false, method: "post" },
-  { route: '/**', handler: _lazy_kdwqQN, lazy: true, middleware: false, method: undefined }
+  { route: '', handler: _AKJKLv, lazy: false, middleware: true, method: undefined },
+  { route: '', handler: _wQ0rIv, lazy: false, middleware: true, method: undefined },
+  { route: '/api/chat', handler: _lazy_pJmwHu, lazy: true, middleware: false, method: "post" },
+  { route: '/**', handler: _lazy_w4nIEp, lazy: true, middleware: false, method: undefined }
 ];
 
-const serverAssets = [{"baseName":"server","dir":"/home/project/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/Users/domin/Coachapp-mobile local/CoachApp-Mobile/server/assets"}];
 
 const assets = createStorage();
 
@@ -307,48 +306,16 @@ for (const asset of serverAssets) {
   assets.mount(asset.baseName, unstorage_47drivers_47fs({ base: asset.dir, ignore: (asset?.ignore || []) }));
 }
 
-// @ts-check
-
-
-/**
- * @param {string} item
- */
-const normalizeFsKey = item => item.replaceAll(':', '_');
-
-/**
- * @param {{ base: string }} opts
- */
-const _47home_47project_47node_modules_47nuxt_47dist_47core_47runtime_47nitro_47cache_45driver_46js = defineDriver((opts) => {
-  const fs = fsDriver({ base: opts.base });
-  const lru = lruCache({ max: 1000 });
-
-  return {
-    ...fs, // fall back to file system - only the bottom three methods are used in renderer
-    async setItem (key, value, opts) {
-      await Promise.all([
-        fs.setItem?.(normalizeFsKey(key), value, opts),
-        lru.setItem?.(key, value, opts),
-      ]);
-    },
-    async hasItem (key, opts) {
-      return await lru.hasItem(key, opts) || await fs.hasItem(normalizeFsKey(key), opts)
-    },
-    async getItem (key, opts) {
-      return await lru.getItem(key, opts) || await fs.getItem(normalizeFsKey(key), opts)
-    },
-  }
-});
-
 const storage = createStorage({});
 
 storage.mount('/assets', assets);
 
-storage.mount('internal:nuxt:prerender', _47home_47project_47node_modules_47nuxt_47dist_47core_47runtime_47nitro_47cache_45driver_46js({"driver":"/home/project/node_modules/nuxt/dist/core/runtime/nitro/cache-driver.js","base":"/home/project/.nuxt/cache/nitro/prerender"}));
-storage.mount('data', fsDriver({"driver":"fsLite","base":"/home/project/.data/kv"}));
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/project","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/project/server","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/project/.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/project/.nuxt/cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('internal:nuxt:prerender', file_58_47_47_47C_58_47Users_47domin_47Coachapp_45mobile_3720local_47CoachApp_45Mobile_47node_modules_47nuxt_47dist_47core_47runtime_47nitro_47cache_45driver_46js({"driver":"file:///C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/nuxt/dist/core/runtime/nitro/cache-driver.js","base":"C:/Users/domin/Coachapp-mobile local/CoachApp-Mobile/.nuxt/cache/nitro/prerender"}));
+storage.mount('data', unstorage_47drivers_47fs_45lite({"driver":"fsLite","base":"C:\\Users\\domin\\Coachapp-mobile local\\CoachApp-Mobile\\.data\\kv"}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\domin\\Coachapp-mobile local\\CoachApp-Mobile","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\domin\\Coachapp-mobile local\\CoachApp-Mobile\\server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\domin\\Coachapp-mobile local\\CoachApp-Mobile\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\domin\\Coachapp-mobile local\\CoachApp-Mobile\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -737,7 +704,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "f0cbc15c-9780-40c1-b2fc-cb58c4cc801c",
+    "buildId": "43d2f875-2284-4002-b5df-424b0af2cd16",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -808,11 +775,6 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
     }
     return void 0;
   }
-});
-
-getContext("nitro-app", {
-  asyncContext: false,
-  AsyncLocalStorage: void 0
 });
 
 const config = useRuntimeConfig();
@@ -897,17 +859,17 @@ function createNitroApp() {
       return errorHandler(error, event);
     },
     onRequest: async (event) => {
-      await nitroApp$1.hooks.callHook("request", event).catch((error) => {
+      await nitroApp.hooks.callHook("request", event).catch((error) => {
         captureError(error, { event, tags: ["request"] });
       });
     },
     onBeforeResponse: async (event, response) => {
-      await nitroApp$1.hooks.callHook("beforeResponse", event, response).catch((error) => {
+      await nitroApp.hooks.callHook("beforeResponse", event, response).catch((error) => {
         captureError(error, { event, tags: ["request", "response"] });
       });
     },
     onAfterResponse: async (event, response) => {
-      await nitroApp$1.hooks.callHook("afterResponse", event, response).catch((error) => {
+      await nitroApp.hooks.callHook("afterResponse", event, response).catch((error) => {
         captureError(error, { event, tags: ["request", "response"] });
       });
     }
@@ -994,11 +956,11 @@ function runNitroPlugins(nitroApp2) {
     }
   }
 }
-const nitroApp$1 = createNitroApp();
+const nitroApp = createNitroApp();
 function useNitroApp() {
-  return nitroApp$1;
+  return nitroApp;
 }
-runNitroPlugins(nitroApp$1);
+runNitroPlugins(nitroApp);
 
 function defineRenderHandler(render) {
   const runtimeConfig = useRuntimeConfig();
@@ -1039,10 +1001,5 @@ function defineRenderHandler(render) {
   });
 }
 
-const nitroApp = useNitroApp();
-const localFetch = nitroApp.localFetch;
-const closePrerenderer = () => nitroApp.hooks.callHook("close");
-trapUnhandledNodeErrors();
-
-export { useStorage as a, useNitroApp as b, closePrerenderer as c, defineRenderHandler as d, getRouteRules as g, localFetch as l, useRuntimeConfig as u };
+export { useRuntimeConfig as a, useStorage as b, defineRenderHandler as d, getRouteRules as g, trapUnhandledNodeErrors as t, useNitroApp as u };
 //# sourceMappingURL=nitro.mjs.map

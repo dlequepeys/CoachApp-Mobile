@@ -1,6 +1,6 @@
-import { ref, watchEffect, watch, getCurrentInstance } from 'file:///home/project/node_modules/vue/index.mjs';
+import { ref, watchEffect, watch, getCurrentInstance } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/vue/index.mjs';
 import { i as injectHead, d as resolveUnrefHeadInput } from './server.mjs';
-import { composableNames } from 'file:///home/project/node_modules/@unhead/shared/dist/index.mjs';
+import { composableNames } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/@unhead/shared/dist/index.mjs';
 
 function useHead(input, options = {}) {
   const head = options.head || injectHead();

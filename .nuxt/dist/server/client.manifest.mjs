@@ -1,1 +1,1 @@
-export { default } from "file:///home/project/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
+export { default } from "file:///C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
