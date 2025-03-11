@@ -47,7 +47,7 @@
         </div>
 
         <!-- Diagnostic View -->
-        <div v-else-if="currentView === 'diag'" class="diag-view">
+        <div v-if="currentView === 'diag'" class="diag-view">
 
           <!-- Progress Subtab -->
           <div v-if="currentDiagTab === 'progress'" class="subtab-container">
@@ -68,52 +68,48 @@
               L'objectif de cette phase est de comprendre suffisamment le marché et les clients pour commencer la phase suivante de conception
             </p>
 
-                <h3 class="section-title mt-8"> Par domaine</h3>
-                <div class="domains-grid">
-                  <div class="domain-item">
-                    <div class="domain-header">
-                      <h4>🎯 Segmentation client</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 60%"></div>
+                  <h3 class="section-title mt-8"> Par domaine</h3>
+                  <div class="domains-grid">
+                    <div class="domain-item">
+                      <div class="domain-header">
+                        <h4>🎯 Segmentation client</h4>
+                        <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                          </div>
+                          <span class="progress-text">60%</span>
                         </div>
-                        <span class="progress-text">60%</span>
+                      </div>
+                      <div class="domain-header">
+                        <h4>💔 Compréhension besoin</h4>
+                        <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                          </div>
+                          <span class="progress-text">30%</span>
+                        </div>
+                      </div>
+                      <div class="domain-header">
+                        <h4>🦈 Etude concurrence</h4>
+                        <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                          </div>
+                          <span class="progress-text">20%</span>
+                        </div>
+                      </div>
+                       <div class="domain-header">
+                        <h4>💸 Faisabilité économique</h4>
+                        <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%"></div>
+                          </div>
+                          <span class="progress-text">10%</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div class="domain-item">
-                    <div class="domain-header">
-                      <h4>💔 Compréhension besoin</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 30%"></div>
-                        </div>
-                        <span class="progress-text">30%</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="domain-item">
-                    <div class="domain-header">
-                      <h4>🦈 Etude concurrence</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 30%"></div>
-                        </div>
-                        <span class="progress-text">20%</span>
-                      </div>
-                    </div>
-                     <div class="domain-header">
-                      <h4>💸 Faisabilité économique</h4>
-                      <div class="domain-progress">
-                        <div class="progress-bar">
-                          <div class="progress-fill" style="width: 30%"></div>
-                        </div>
-                        <span class="progress-text">10%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
 
               </section>
           </div>
@@ -144,7 +140,7 @@
                     
                     <!-- Actors -->
                     <div class="mt-4">
-                      <h4 class="synthesis-label">👥 Acteurs clés</h4>
+                      <h4 class="synthesis-label">Acteurs clés</h4>
                       <ul class="synthesis-list">
                         <li v-for="actor in parsedSynthesis.business_model.actors" :key="actor.role">
                           <strong>{{ actor.role }}:</strong> {{ actor.contribution }}
@@ -154,7 +150,7 @@
 
                     <!-- Value Flows -->
                     <div class="mt-4">
-                      <h4 class="synthesis-label">💫 Flux de valeur</h4>
+                      <h4 class="synthesis-label">Flux de valeur</h4>
                       <div v-for="(flow, actor) in parsedSynthesis.business_model.value_flows" :key="actor" class="value-flow">
                         <h5 class="actor-name">{{ actor }}</h5>
                         <div class="flow-details">
@@ -175,7 +171,7 @@
 
                     <!-- Problems -->
                     <div class="mt-4">
-                      <h4 class="synthesis-label">🎯 Problématiques</h4>
+                      <h4 class="synthesis-label">Problématiques</h4>
                       <div v-for="(problem, actor) in parsedSynthesis.business_model.problem" :key="actor" class="problem-section">
                         <h5 class="actor-name">{{ actor }}</h5>
                         <ul class="synthesis-list">
@@ -207,7 +203,7 @@
 
             <!-- Focus Section -->
             <section class="sub-tab">
-              <h2 class="section-title">🔍 A clarifier</h2>
+              <h2 class="section-title">A clarifier</h2>
               <p>Modèle économique, prospects principaux, bénéfice pour les livreurs,... ?</p>
               <button class="action-button">
                 Préciser
@@ -218,7 +214,7 @@
           <!-- Strengths & Risks View -->
           <div v-if="currentDiagTab === 'strengths'" class="subtab-container">
             <section class="sub-tab">
-              <h2 class="section-title">⚖️ Forces & Risques</h2>
+              <h2 class="section-title">Forces & Risques</h2>
               <div class="two-col">
                 <div class="strengths">
                   <h3>✅ Forces</h3>
@@ -246,7 +242,7 @@
           <!-- Method View -->
           <div v-if="currentDiagTab === 'method'" class="subtab-container">
             <section class="sub-tab">
-              <h2 class="section-title">🪛 Méthode</h2>
+              <h2 class="section-title">Méthode</h2>
               <div class="two-col">
                 <p>
                   👏 Bravo, tu as déjà formalisé une présentation, et réfléchis sur une solution possible.
@@ -264,13 +260,32 @@
           <!-- Graph View -->
           <div v-if="currentDiagTab === 'graph'" class="subtab-container">
             <section class="sub-tab">
-              <h2 class="section-title">📊 Graphe</h2>
+              <h2 class="section-title">Graphe</h2>
               <p>Visualisation du projet en cours de développement...</p>
               <button class="action-button">
                 Voir le détail
               </button>
             </section>
           </div>
+        </div>
+        <div v-if="currentView === 'resources'" class="subtab-container">
+          <section class="sub-tab">
+            <h2 class="section-title">Ressources</h2>
+            <p>Des ressources pour t'aider à avancer</p>
+          </section>
+        </div>
+        <div v-if="currentView === 'community'" class="subtab-container">
+          <section class="sub-tab">
+         
+          <h2 class="section-title">Communauté</h2>
+          <p>Connecte toi à la communauté</p>
+          </section>
+        </div>
+        <div v-if="currentView === 'actions'" class="subtab-container">
+          <section class="sub-tab">
+         <h2 class="section-title">Actions</h2>
+          <p>Tes actions</p>
+          </section>
         </div>
       </main>
 
@@ -279,7 +294,7 @@
         <button class="nav-item" @click="toggleOptions">
           <svg class="nav-icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z" />
-          </svg><!--TODO: remplacer par fontawesome SVG-->
+          </svg><!--TODO: remplacer les svg par fontawesome SVG-->
           <span>Plus</span>
         </button>
 
@@ -290,21 +305,21 @@
           <span>Diagnostic</span>
         </button>
         
-        <button class="nav-item">
+        <button class="nav-item" @click="currentView = 'resources'">
           <svg class="nav-icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z" />
           </svg>
           <span>Ressources</span>
         </button>
 
-        <button class="nav-item">
+        <button class="nav-item" @click="currentView = 'community'">
           <svg class="nav-icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z" />
           </svg>
           <span>Communauté</span>
         </button>
 
-        <button class="nav-item">
+        <button class="nav-item" @click="currentView = 'actions'">
           <svg class="nav-icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z" />
           </svg>
