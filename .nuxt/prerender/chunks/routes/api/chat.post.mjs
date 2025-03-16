@@ -1,5 +1,5 @@
-import OpenAI from 'file:///home/project/node_modules/openai/index.mjs';
-import { defineEventHandler, readBody, createError } from 'file:///home/project/node_modules/h3/dist/index.mjs';
+import OpenAI from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/openai/index.mjs';
+import { defineEventHandler, readBody, createError } from 'file://C:/Users/domin/Coachapp-mobile%20local/CoachApp-Mobile/node_modules/h3/dist/index.mjs';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
