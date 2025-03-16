@@ -71,27 +71,39 @@
                   <h3 class="section-title mt-8"> Par domaine</h3>
                   <div class="domains-grid">
                     <div class="domain-item">
-                      <div class="domain-header">
+                     <div class="domain-header">
                         <h4>🎯 Segmentation client</h4>
                         <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 60%"></div>
+                          </div>
                           <span class="progress-text">60%</span>
                         </div>
                       </div>
                       <div class="domain-header">
                         <h4>💔 Compréhension besoin</h4>
                         <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 30%"></div>
+                          </div>
                           <span class="progress-text">30%</span>
                         </div>
                       </div>
                       <div class="domain-header">
                         <h4>🦈 Etude concurrence</h4>
                         <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 20%"></div>
+                          </div>
                           <span class="progress-text">20%</span>
                         </div>
                       </div>
                        <div class="domain-header">
                         <h4>💸 Faisabilité économique</h4>
                         <div class="domain-progress">
+                          <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 10%"></div>
+                          </div>
                           <span class="progress-text">10%</span>
                         </div>
                       </div>
@@ -299,7 +311,7 @@
                   </div>
                   <div class="challenge-progress">
                     <div class="progress-ring">
-                      <div class="progress-fill" style="--progress: 70%"></div>
+                      <div class="progress-ring-fill" style="--progress: 70%"></div>
                     </div>
                     <div class="challenge-arrow">›</div>
                   </div>
@@ -314,7 +326,7 @@
                   </div>
                   <div class="challenge-progress">
                     <div class="progress-ring">
-                      <div class="progress-fill" style="--progress: 38%"></div>
+                      <div class="progress-ring-fill" style="--progress: 38%"></div>
                     </div>
                     <div class="challenge-arrow">›</div>
                   </div>
@@ -972,7 +984,8 @@ async function extractText(file) {
   overflow: hidden;
 }
 
-.progress-fill {
+  
+.progress-ring-fill {
   position: absolute;
   top: 0;
   left: 0;
@@ -1043,7 +1056,22 @@ async function extractText(file) {
 .domain-progress {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   min-width: 120px;
+}
+
+.domain-progress .progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--color-background-alt);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.domain-progress .progress-bar-fill {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width 0.3s ease-in-out;
 }
 
 .domain-progress .progress-text {
