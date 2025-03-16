@@ -74,36 +74,24 @@
                       <div class="domain-header">
                         <h4>🎯 Segmentation client</h4>
                         <div class="domain-progress">
-                          <div class="progress-bar">
-                            <div class="progress-fill" style="width: 60%"></div>
-                          </div>
                           <span class="progress-text">60%</span>
                         </div>
                       </div>
                       <div class="domain-header">
                         <h4>💔 Compréhension besoin</h4>
                         <div class="domain-progress">
-                          <div class="progress-bar">
-                            <div class="progress-fill" style="width: 30%"></div>
-                          </div>
                           <span class="progress-text">30%</span>
                         </div>
                       </div>
                       <div class="domain-header">
                         <h4>🦈 Etude concurrence</h4>
                         <div class="domain-progress">
-                          <div class="progress-bar">
-                            <div class="progress-fill" style="width: 30%"></div>
-                          </div>
                           <span class="progress-text">20%</span>
                         </div>
                       </div>
                        <div class="domain-header">
                         <h4>💸 Faisabilité économique</h4>
                         <div class="domain-progress">
-                          <div class="progress-bar">
-                            <div class="progress-fill" style="width: 30%"></div>
-                          </div>
                           <span class="progress-text">10%</span>
                         </div>
                       </div>
@@ -186,7 +174,8 @@
                   </div>
                 </template>
                 <div v-else class="pitch-text"> <!--TODO: revoir : dans quel cas s'afficherait ? afficherait la synthèse brute au cas d'échec du pasing de synthesis (synthesis existe mais pas parsedsyntehsis ?-->
-                  {{ synthesis }} 
+                  {{ synthesis }}                 )
+
                 </div>
               </div>
               <div class="flex justify-center gap-4">
@@ -276,15 +265,65 @@
         </div>
         <div v-if="currentView === 'community'" class="subtab-container">
           <section class="sub-tab">
-         
-          <h2 class="section-title">Communauté</h2>
-          <p>Connecte toi à la communauté</p>
+            <h2 class="section-title">Communauté</h2>
+            <div class="members-grid">
+              <div v-for="member in communityMembers" :key="member.id" class="member-card">
+                <div class="member-photo">
+                  <img :src="member.photo" :alt="member.name">
+                </div>
+                <div class="member-info">
+                  <h3>{{ member.name }}</h3>
+                  <p class="member-role">{{ member.role }}</p>
+                  <div class="member-tags">
+                    <span v-for="tag in member.tags" 
+                          :key="tag" 
+                          :class="['member-tag', `tag-${tag}`]">
+                      {{ tag }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
         <div v-if="currentView === 'actions'" class="subtab-container">
           <section class="sub-tab">
-         <h2 class="section-title">Actions</h2>
-          <p>Tes actions</p>
+            <h2 class="section-title">🎯 Challenge de la semaine</h2>
+            <div class="challenge-list">
+              <div class="challenge-item">
+                <div class="challenge-header">
+                  <div class="challenge-number">1</div>
+                  <div class="challenge-content">
+                    <h3>Entretiens</h3>
+                    <p>Conduire 4 entretiens découverte client</p>
+                  </div>
+                  <div class="challenge-progress">
+                    <div class="progress-ring">
+                      <div class="progress-fill" style="--progress: 70%"></div>
+                    </div>
+                    <div class="challenge-arrow">›</div>
+                  </div>
+                </div>
+              </div>
+              <div class="challenge-item">
+                <div class="challenge-header">
+                  <div class="challenge-number">2</div>
+                  <div class="challenge-content">
+                    <h3>Concurrence</h3>
+                    <p>Finaliser l'analyse concurrentielle</p>
+                  </div>
+                  <div class="challenge-progress">
+                    <div class="progress-ring">
+                      <div class="progress-fill" style="--progress: 38%"></div>
+                    </div>
+                    <div class="challenge-arrow">›</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="info-banner">
+              <p>J'ai ajouté ceci en priorité n°2 de la semaine. Tu peux le réordonner.</p>
+            </div>
           </section>
         </div>
       </main>
@@ -416,6 +455,80 @@ const showOptions = ref(false)
 const currentView = ref('chat') // Default to chat view
 const currentDiagTab = ref('progress')
 
+// Community members data
+const communityMembers = [
+  { 
+    id: 1,
+    name: 'Sophie Martin',
+    role: 'UX Designer',
+    photo: 'https://i.pravatar.cc/150?img=44',
+    tags: ['entrepreneur']
+  },
+  {
+    id: 2,
+    name: 'Thomas Bernard',
+    role: 'Business Coach',
+    photo: 'https://i.pravatar.cc/150?img=12',
+    tags: ['coach', 'expert']
+  },
+  {
+    id: 3,
+    name: 'Julie Dubois',
+    role: 'Product Manager',
+    photo: 'https://i.pravatar.cc/150?img=5',
+    tags: ['entrepreneur', 'expert']
+  },
+  {
+    id: 4,
+    name: 'Marc Leroy',
+    role: 'Growth Mentor',
+    photo: 'https://i.pravatar.cc/150?img=7',
+    tags: ['coach']
+  },
+  {
+    id: 5,
+    name: 'Emma Petit',
+    role: 'Startup Founder',
+    photo: 'https://i.pravatar.cc/150?img=49',
+    tags: ['entrepreneur']
+  },
+  {
+    id: 6,
+    name: 'Lucas Moreau',
+    role: 'Tech Lead',
+    photo: 'https://i.pravatar.cc/150?img=69',
+    tags: ['entrepreneur', 'expert']
+  },
+  {
+    id: 7,
+    name: 'Sarah Cohen',
+    role: 'Marketing Expert',
+    photo: 'https://i.pravatar.cc/150?img=32',
+    tags: ['coach', 'expert']
+  },
+  {
+    id: 8,
+    name: 'Antoine Roux',
+    role: 'Business Angel',
+    photo: 'https://i.pravatar.cc/150?img=8',
+    tags: ['expert']
+  },
+  {
+    id: 9,
+    name: 'Marie Lambert',
+    role: 'Innovation Coach',
+    photo: 'https://i.pravatar.cc/150?img=10',
+    tags: ['coach']
+  },
+  {
+    id: 10,
+    name: 'Pierre Durand',
+    role: 'Startup Founder',
+    photo: 'https://i.pravatar.cc/150?img=64',
+    tags: ['entrepreneur']
+  }
+]
+
 const turndownService = new TurndownService()
 
 // Constants
@@ -482,26 +595,28 @@ async function sendUserMessage(text) {
       type: 'user',
       text
     })
-//TODO: sortir et créer une fonction de réponse du bot en dehors de sendMessage
+
     addMessage({
       type: 'bot',
       text: '',
       loading: true
     })
 
+    // Get all previous messages to maintain conversation history
+    const messageHistory = messages.value
+      .filter(m => !m.loading)
+      .map(m => ({
+        role: m.type === 'user' ? 'user' : 'assistant',
+        content: m.text
+      }))
+
     const response = await $fetch('/api/chat', {
       method: 'POST',
       body: {
-        messages: [
-          {
-            role: 'system',
-            content: 'You are CoachApp, an AI assistant helping entrepreneurs validate and develop their business ideas. Be concise, practical and encouraging.'
-          },
-          {
-            role: 'user',
-            content: text
-          }
-        ]
+        messages: messageHistory.concat({
+          role: 'user',
+          content: text
+        })
       }
     })
 
@@ -787,6 +902,111 @@ async function extractText(file) {
 /* All styles from assets/styles/main.css */
 @import './assets/styles/main.css';
 
+/* Challenge List Styles */
+.challenge-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.challenge-item {
+  background: var(--color-background);
+  border-radius: 12px;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.challenge-item:hover {
+  transform: translateX(4px);
+}
+
+.challenge-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.challenge-number {
+  width: 2rem;
+  height: 2rem;
+  background: #ff4444;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.challenge-content {
+  flex: 1;
+}
+
+.challenge-content h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.challenge-content p {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+}
+
+.challenge-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-ring {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #eee;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(var(--color-primary) var(--progress), transparent 0);
+  transition: all 0.2s ease-in-out;
+}
+.progress-ring::before {
+  content: "";
+  width: 60%;
+  height: 60%;
+  background: white;
+  border-radius: 50%;
+  position: absolute ;
+  inset: 0;  /* Centre automatiquement l'élément */
+  margin: auto; /* Assure que le cercle est bien centré */
+  z-index:10
+}
+.challenge-arrow {
+  font-size: 1.5rem;
+  color: var(--color-text-light);
+  font-weight: 300;
+}
+
+.info-banner {
+  background: #fff9e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #946500;
+  font-size: 0.9rem;
+}
 .warning-message {
   color: #ff6b6b;
   font-size: 0.875rem;
@@ -823,22 +1043,7 @@ async function extractText(file) {
 .domain-progress {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   min-width: 120px;
-}
-
-.domain-progress .progress-bar {
-  flex: 1;
-  height: 8px;
-  background: var(--color-background-alt);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.domain-progress .progress-fill {
-  height: 100%;
-  background: var(--color-primary);
-  transition: width 0.3s ease-in-out;
 }
 
 .domain-progress .progress-text {
@@ -846,6 +1051,7 @@ async function extractText(file) {
   color: var(--color-text-light);
   min-width: 3em;
   text-align: right;
+  margin-left: auto;
 }
 
 .mt-8 {
@@ -963,5 +1169,87 @@ async function extractText(file) {
   gap: 1rem;
   margin-top: 0.5rem;
   font-size: 0.8rem;
+}
+
+/* Community Members Grid */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.member-card {
+  background: var(--color-background);
+  border-radius: 12px;
+  padding: 1rem;
+  display: inline-flex;
+  flex-flow: column nowrap;
+  align-items: center; 
+  text-align: center;
+  box-shadow: 0 2px 4px var(--color-shadow);
+  transition: transform 0.2s ease;
+  width: 100%;
+}
+
+.member-card:hover {
+  transform: translateY(-2px);
+}
+
+.member-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-info h3 {
+  color: var(--color-text);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.member-role {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.member-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.member-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.tag-entrepreneur {
+  background-color: #e9f5ff;
+  color: #0066cc;
+}
+
+.tag-coach {
+  background-color: #fff2e9;
+  color: #ff6b2c;
+}
+
+.tag-expert {
+  background-color: #d9ead3;
+  color: #6aa84f;
 }
 </style>
