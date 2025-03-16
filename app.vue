@@ -75,9 +75,9 @@
                         <h4>🎯 Segmentation client</h4>
                         <div class="domain-progress">
                           <div class="progress-bar">
-                            <div class="progress-bar-fill" style="width: 60%"></div>
+                            <div class="progress-bar-fill" style="width: 70%"></div>
                           </div>
-                          <span class="progress-text">60%</span>
+                          <span class="progress-text">70%</span>
                         </div>
                       </div>
                       <div class="domain-header">
